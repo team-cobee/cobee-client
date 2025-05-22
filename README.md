@@ -1,4 +1,8 @@
 # cobee-client
+<<<<<<< HEAD
+
+=======
+>>>>>>> 53caa68c987a844fcb381cc3b74801c26b9510f3
 # Welcome to your Expo app 👋
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
