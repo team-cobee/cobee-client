@@ -11,6 +11,9 @@ const App = () => {
       <Link href="/post">
         <Text>Post 화면으로 이동</Text>
       </Link>
+      <Link href="/account">
+        <Text>Account Settings 화면으로 이동</Text>
+      </Link>
     </SafeAreaView>
   );
 };
