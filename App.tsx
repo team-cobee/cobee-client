@@ -1,8 +1,6 @@
 // App.tsx
-import { Link } from 'expo-router';
-import React from 'react';
-import { SafeAreaView, StyleSheet, Text } from 'react-native';
-
+import { Link } from "expo-router";
+import { SafeAreaView, StyleSheet, Text } from "react-native";
 
 const App = () => {
   return (
@@ -14,14 +12,16 @@ const App = () => {
       <Link href="/account">
         <Text>Account Settings 화면으로 이동</Text>
       </Link>
+      <Link href="/recruitPost">
+        <Text>구인글 페이지로 이동</Text>
+      </Link>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-
-    flex: 1, 
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#f5f5f5",
@@ -29,9 +29,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     color: "#333",
-
   },
 });
 
 export default App;
-
