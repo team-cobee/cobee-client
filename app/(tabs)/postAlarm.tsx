@@ -45,7 +45,7 @@ const notifications: Notification[] = [
     id: 4,
     sender: "김감자",
     type: "post",
-    isRead: true,
+    isRead: false,
   },
 ];
 
@@ -152,10 +152,10 @@ function renderButtons(type: NotificationType) {
 const styles = StyleSheet.create({
   card: {
     borderWidth: 1,
-    padding: 16,
-    marginBottom: 10,
+    padding: 9,
+    marginBottom: 0,
     marginHorizontal: 0,
-    borderRadius: 8,
+    borderRadius: 1,
     width: "100%",
   },
   content: {
