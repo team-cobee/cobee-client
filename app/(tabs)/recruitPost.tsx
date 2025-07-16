@@ -93,8 +93,13 @@ export default function RecruitPost(/*{ API연동시 외부에서 주는 파라�
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : undefined}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 85 : 0}
       >
-        <ScrollView contentContainerStyle={styles.scrollContent}>
+        <ScrollView
+          contentContainerStyle={styles.scrollContent}
+          //contentContainerStyle={{ flexGrow: 1 }}
+          keyboardShouldPersistTaps="handled"
+        >
           <View style={styles.postContainer}>
             <Text style={styles.writerName}>{posts.post.authorName}님</Text>
             <Text style={styles.location}>
@@ -158,7 +163,12 @@ export default function RecruitPost(/*{ API연동시 외부에서 주는 파라�
 
                             {/* 이모티콘을 오른쪽 끝에 정렬 */}
                             <TouchableOpacity
-                              onPress={() => setReplyToId(comment.id)}
+                              //onPress={() => setReplyToId(comment.id)}
+                              onPress={() =>
+                                setReplyToId((prevId) =>
+                                  prevId === comment.id ? null : comment.id
+                                )
+                              }
                               style={styles.replyIconWrapper}
                             >
                               <Image
@@ -215,19 +225,20 @@ export default function RecruitPost(/*{ API연동시 외부에서 주는 파라�
               })}
           </View>
         </ScrollView>
-
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder="댓글을 입력하세요."
-            placeholderTextColor="#aaa"
-            value={inputText}
-            onChangeText={setInputText}
-          />
-          <TouchableOpacity onPress={handleSendComment}>
-            <Image source={require("../../assets/images/sendComment.png")} />
-          </TouchableOpacity>
-        </View>
+        {replyToId === null && (
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder="댓글을 입력하세요."
+              placeholderTextColor="#aaa"
+              value={inputText}
+              onChangeText={setInputText}
+            />
+            <TouchableOpacity onPress={handleSendComment}>
+              <Image source={require("../../assets/images/sendComment.png")} />
+            </TouchableOpacity>
+          </View>
+        )}
       </KeyboardAvoidingView>
     </MainLayout>
   );
@@ -236,6 +247,7 @@ export default function RecruitPost(/*{ API연동시 외부에서 주는 파라�
 const styles = StyleSheet.create({
   scrollContent: {
     paddingBottom: 20,
+    flexGrow: 1,
   },
   postContainer: {
     padding: 16,
