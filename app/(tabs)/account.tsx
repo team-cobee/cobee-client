@@ -100,10 +100,26 @@ export default function AccountSettings() {
             key={item}
             style={styles.menuItem}
             onPress={() => {
-              if (item === '로그아웃') {
+              if (item === '회원 정보 수정') {
+
+              } 
+              else if (item === '알림 설정') {
+                
+              }
+              else if (item === '공개 프로필 수정') {
+
+              } 
+              else if (item === '제출 명단 확인') {
+                router.push('/submissionList');
+              } 
+              else if (item === '내가 쓴 구인글') {
+
+              } 
+              else if (item === '로그아웃') {
                 setModalVisible(true);
-              } else {
-                // 다른 메뉴 액션
+              }
+              else if (item === '회원탈퇴') {
+                // 회원탈퇴 로직
               }
             }}>
             <Text style={styles.menuText}>{item}</Text>
