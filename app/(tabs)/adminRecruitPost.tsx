@@ -4,7 +4,6 @@ import {
   Image,
   ImageSourcePropType,
   KeyboardAvoidingView,
-  Linking,
   Platform,
   ScrollView,
   StyleSheet,
@@ -20,55 +19,17 @@ interface Comment {
   image: ImageSourcePropType;
   parentId?: number;
 }
-interface RecruitPostDetail {
-  post: {
-    id: number;
-    authorId: number;
-    authorName: string;
-    //profileImage : string;
-    houseLocation: string;
-    title: string;
-    needMemberCount: number; // 모집인원
-    deposit: number; // 보증금
-    monthlyRentCost: number; // 월세
-    content: string; // 내용
-    formLink: string;
-  };
-  currentUserId: number;
-}
 
-export default function RecruitPost(/*{ API연동시 외부에서 주는 파라미터값
-  post,
-  currentUserId,
-}: RecruitPostDetail*/) {
+export default function RecruitPost() {
   const [comments, setComments] = useState<Comment[]>([
     { id: 1, content: "폼 제출은 언제까지 하면 될까요?", image: profile },
     { id: 2, content: "오늘까지요.", image: profile, parentId: 1 },
   ]);
 
-  const [posts, setPosts] = useState<RecruitPostDetail>({
-    post: {
-      id: 1,
-      authorId: 100,
-      authorName: "희디",
-      houseLocation: "숙명여대 10번출구 400m",
-      title: "룸메 구해요",
-      needMemberCount: 3,
-      deposit: 300,
-      monthlyRentCost: 50,
-      content:
-        "코골이 없는 룸메구해요. 해당 폼에서 정보 입력해주시면 추후 연락드리겠습니다:D",
-      formLink: "https://github.com/hwnooy",
-    },
-    currentUserId: 100,
-  });
-  const isAuthor = posts.currentUserId === posts.post.authorId; // 글 작성자인지 체크 변수
-
   const [inputText, setInputText] = useState("");
   const [replyToId, setReplyToId] = useState<number | null>(null); // 대댓글용
 
   const handleSendComment = () => {
-    // 댓글 작성 버튼 클릭시
     if (!inputText.trim()) return;
 
     const newComment: Comment = {
@@ -83,11 +44,6 @@ export default function RecruitPost(/*{ API연동시 외부에서 주는 파라�
     setReplyToId(null);
   };
 
-  const handleEdit = () => {
-    // api 연동부분
-    console.log("수정 버튼 클릭됨!");
-  };
-
   return (
     <MainLayout title="모집글 상세" showTabs backType="arrow">
       <KeyboardAvoidingView
@@ -96,37 +52,13 @@ export default function RecruitPost(/*{ API연동시 외부에서 주는 파라�
       >
         <ScrollView contentContainerStyle={styles.scrollContent}>
           <View style={styles.postContainer}>
-            <Text style={styles.writerName}>{posts.post.authorName}님</Text>
+            <Text style={styles.writerName}>장숙대님</Text>
             <Text style={styles.location}>
-              위치 : {posts.post.houseLocation}
+              🏆 숙명여자대학교 10번 출구 100m
             </Text>
-            <Text></Text>
-            <Text style={styles.postTitle}>{posts.post.title}</Text>
-
-            <Text style={styles.postText}>
-              모집인원 : {posts.post.needMemberCount}명
-            </Text>
-            <Text style={styles.postText}>
-              보증금 : {posts.post.deposit}만원
-            </Text>
-            <Text style={styles.postText}>
-              월세 : {posts.post.monthlyRentCost}만원
-            </Text>
-            <Text></Text>
-
-            <Text style={styles.postText}>{posts.post.content}</Text>
-            <Text
-              style={styles.linkText}
-              onPress={() => Linking.openURL(posts.post.formLink)}
-            >
-              폼링크 : {posts.post.formLink}
-            </Text>
-            {/*작성자면 보여주기*/}
-            {isAuthor && (
-              <TouchableOpacity onPress={handleEdit} style={styles.editButton}>
-                <Text style={styles.editButtonText}>수정</Text>
-              </TouchableOpacity>
-            )}
+            <Text style={styles.postTitle}>코 안 고는 룸메 구해요.</Text>
+            <Text style={styles.postText}>ㅈㄱㄴ</Text>
+            <Text style={styles.linkText}>폼 링크: ******</Text>
           </View>
 
           <View style={styles.commentSection}>
@@ -156,7 +88,7 @@ export default function RecruitPost(/*{ API연동시 외부에서 주는 파라�
                               <Text style={styles.commentWriter}>익명</Text>
                             </View>
 
-                            {/* 이모티콘을 오른쪽 끝에 정렬 */}
+                            {/* ✅ 이모티콘을 오른쪽 끝에 정렬 */}
                             <TouchableOpacity
                               onPress={() => setReplyToId(comment.id)}
                               style={styles.replyIconWrapper}
@@ -173,7 +105,7 @@ export default function RecruitPost(/*{ API연동시 외부에서 주는 파라�
                         </View>
                       </View>
 
-                      {/* 대댓글 렌더링 */}
+                      {/* ✅ 대댓글 렌더링 */}
                       {replies.map((reply) => (
                         <View key={reply.id} style={styles.replyRow}>
                           <Image
@@ -193,7 +125,7 @@ export default function RecruitPost(/*{ API연동시 외부에서 주는 파라�
                         </View>
                       ))}
 
-                      {/* 대댓글 입력창 */}
+                      {/* ✅ 대댓글 입력창 */}
                       {replyToId === comment.id && (
                         <View style={styles.replyInputContainer}>
                           <TextInput
@@ -252,7 +184,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   postTitle: {
-    fontSize: 25,
+    fontSize: 18,
     fontWeight: "bold",
     marginBottom: 8,
   },
@@ -370,27 +302,8 @@ const styles = StyleSheet.create({
 
   replyBox: {
     width: "90%",
-    backgroundColor: "#F2F2F2",
+    backgroundColor: "#F2F2F2", //배경 회색
     padding: 12,
     borderRadius: 8,
-  },
-  editButton: {
-    position: "absolute",
-    bottom: 10,
-    right: 30,
-    width: 90,
-
-    backgroundColor: "#fdbd23",
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    borderRadius: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 4,
-  },
-  editButtonText: {
-    left: 16,
-    color: "#fff",
-    fontWeight: "bold",
   },
 });
