@@ -1,7 +1,7 @@
 import { Stack, useRouter, usePathname } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
-import Onboarding from "./Onboarding";
+import Onboarding from "./onboarding";
 
 export default function RootLayout() {
   const router = useRouter();

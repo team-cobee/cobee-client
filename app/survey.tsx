@@ -1,10 +1,25 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Image } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import { useState } from "react";
+import {
+  Dimensions,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 const cobeeIcon = require("@/assets/images/notext-cobee.png");
-const { width } = Dimensions.get("window");
+const surveyBg = require("@/assets/images/survey-background.png");
+const { width, height } = Dimensions.get("window");
 
-const QUESTIONS = [
+interface Question {
+  question: string;
+  options: { label: string; value: string }[];
+}
+
+const QUESTIONS: Question[] = [
   {
     question: "선호하는 룸메이트의 성별을 골라주세요",
     options: [
@@ -13,23 +28,23 @@ const QUESTIONS = [
       { label: "상관 없음", value: "any" },
     ],
   },
-  // 다음 단계가 있다면 여기에 추가
 ];
 
 export default function Survey() {
-  const [step, setStep] = useState(0);
-  const [answers, setAnswers] = useState<{ [key: number]: string }>({});
+  const [step, setStep] = useState<number>(0);
+  const [answers, setAnswers] = useState<Record<number, string>>({});
+  const router = useRouter();
 
   const current = QUESTIONS[step];
   const isLast = step === QUESTIONS.length - 1;
 
   const handleSelect = (value: string) => {
-    setAnswers({ ...answers, [step]: value });
+    setAnswers(prev => ({ ...prev, [step]: value }));
   };
 
   const handleNext = () => {
     if (!isLast) setStep(step + 1);
-    // 마지막 단계라면 제출 등 추가 가능
+    // 마지막 단계 처리 로직 추가 가능
   };
 
   const handlePrev = () => {
@@ -38,60 +53,91 @@ export default function Survey() {
 
   return (
     <View style={styles.container}>
-      {/* 상단 배경 + 로고 */}
+      {/* 상단 */}
       <View style={styles.header}>
+        <TouchableOpacity
+          onPress={() => router.push("/idUploadResult")}
+          style={{ position: "absolute", left: 20, top: 80, zIndex: 2 }}
+        >
+          <Ionicons name="chevron-back" size={28} color="#222" />
+        </TouchableOpacity>
         <Image source={cobeeIcon} style={styles.headerLogo} resizeMode="contain" />
       </View>
+
       {/* 진행 바 */}
       <View style={styles.progressBarWrap}>
-        <View style={[styles.progressBar, { width: width * 0.8 * ((step + 1) / QUESTIONS.length) }]} />
+        <View
+          style={[
+            styles.progressBar,
+            { width: width * 0.8 * ((step + 1) / QUESTIONS.length) },
+          ]}
+        />
       </View>
+
       {/* 질문 */}
       <Text style={styles.question}>{current.question}</Text>
+
       {/* 선택지 */}
       <View style={styles.optionsWrap}>
-        {current.options.map(opt => (
-          <TouchableOpacity
-            key={opt.value}
-            style={[
-              styles.optionBtn,
-              answers[step] === opt.value ? styles.optionBtnSelected : styles.optionBtnUnselected,
-            ]}
-            onPress={() => handleSelect(opt.value)}
-            activeOpacity={0.85}
-          >
-            <Text
+        {current.options.map(opt => {
+          const selected = answers[step] === opt.value;
+          return (
+            <TouchableOpacity
+              key={opt.value}
               style={[
-                styles.optionText,
-                answers[step] === opt.value ? styles.optionTextSelected : styles.optionTextUnselected,
+                styles.optionBtn,
+                selected ? styles.optionBtnSelected : styles.optionBtnUnselected,
               ]}
+              onPress={() => handleSelect(opt.value)}
+              activeOpacity={0.85}
             >
-              {opt.label}
-            </Text>
-          </TouchableOpacity>
-        ))}
+              <Text
+                style={[
+                  styles.optionText,
+                  selected ? styles.optionTextSelected : styles.optionTextUnselected,
+                ]}
+              >
+                {opt.label}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
       </View>
-      {/* 하단 장식 */}
-      <View style={styles.bottomDeco1} />
-      <View style={styles.bottomDeco2} />
+
+      {/* 다음 버튼 */}
+      <TouchableOpacity
+        style={styles.nextBtn}
+        onPress={handleNext}
+        disabled={!answers[step]}
+      >
+        <Text style={styles.nextBtnText}>다음</Text>
+      </TouchableOpacity>
+
+      {/* 배경 이미지: pointerEvents 제거, zIndex 조정 */}
+      <Image
+        source={surveyBg}
+        style={styles.surveyBg}
+        resizeMode="cover"
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#fff" },
+  container: {
+    flex: 1,
+    backgroundColor: "#fff", // 또는 "#fff" 대신 "rgba(255, 255, 255, 0)" 등
+    zIndex : -1,
+  },
   header: {
     width: "100%",
     height: 120,
-    backgroundColor: "#ffffff",
+    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "flex-end",
     paddingBottom: 8,
   },
-  headerLogo: {
-    width: 54,
-    height: 35,
-  },
+  headerLogo: { width: 54, height: 35 },
   progressBarWrap: {
     width: width * 0.85,
     height: 8,
@@ -118,7 +164,7 @@ const styles = StyleSheet.create({
   optionsWrap: {
     width: width * 0.7,
     alignSelf: "center",
-    padding: 15
+    padding: 15,
   },
   optionBtn: {
     borderRadius: 8,
@@ -136,34 +182,29 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderColor: "#F9B233",
   },
-  optionText: {
+  optionText: { fontSize: 18, fontWeight: "500" },
+  optionTextSelected: { color: "#222" },
+  optionTextUnselected: { color: "#222" },
+  nextBtn: {
+    marginTop: -25,
+    alignSelf: "center",
+    backgroundColor: "#F9B233",
+    borderRadius: 8,
+    marginLeft : 165,
+    paddingVertical: 8,
+    paddingHorizontal: 25,
+  },
+  nextBtnText: {
+    color: "#fff",
     fontSize: 18,
-    fontWeight: "500",
+    fontWeight: "bold",
   },
-  optionTextSelected: {
-    color: "#222",
-  },
-  optionTextUnselected: {
-    color: "#222",
-  },
-  bottomDeco1: {
+  surveyBg: {
     position: "absolute",
-    bottom: -width * 0.15,
-    left: -width * 0.2,
-    width: width * 0.8,
-    height: width * 0.4,
-    backgroundColor: "#F9B23333",
-    borderRadius: width,
-    zIndex: -1,
+    bottom: 0,
+    left: 0,
+    width: width,
+    height: height * 0.7,
+    zIndex: -1,           // 뒤로 보내기
   },
-  bottomDeco2: {
-    position: "absolute",
-    bottom: -width * 0.25,
-    right: -width * 0.1,
-    width: width * 0.9,
-    height: width * 0.6,
-    backgroundColor: "#F9B23333",
-    borderRadius: width,
-    zIndex: -2,
-  },
-}); 
+});
