@@ -7,9 +7,10 @@ const home = require("../../assets/images/home.png");
 const chat = require("../../assets/images/chat.png");
 
 const routes = [
-  { label: "지도", icon: map, path: "/post" },
-  { label: "홈", icon: home, path: "/" },
-  { label: "채팅", icon: chat, path: "/recruitPost" },
+  // { label: "지도", icon: map, path: "/post" },
+  { label: "지도", icon: map, path: "/mapScreen" },
+  { label: "홈", icon: home, path: "/recruitPost" },
+  { label: "채팅", icon: chat, path: "/chat" },
 ];
 
 export default function BottomTabs() {

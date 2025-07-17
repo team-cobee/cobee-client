@@ -108,7 +108,7 @@ export default function MainLayout({
   backType = null,
   showProfileIcon = true,
   showBellIcon = true,
-  headerBackgroundColor = "#fff",
+  headerBackgroundColor = "#ffffff",
   titleAlign,
   titleStyle,
   children,
