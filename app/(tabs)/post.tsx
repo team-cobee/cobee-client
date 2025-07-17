@@ -1,6 +1,7 @@
 import MainLayout from "@/components/layout/MainLayout";
 import { Ionicons } from "@expo/vector-icons"; //아이콘 추가
 import * as ImagePicker from "expo-image-picker"; // 이미지 선택 추가
+import { navigate } from "expo-router/build/global-state/routing";
 import React, { useState } from "react";
 import {
   GestureResponderEvent,
@@ -135,7 +136,12 @@ const PostScreen: React.FC = () => {
 
           {/* 제출 버튼 */}
           <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-            <Text style={styles.submitText}>제출하기</Text>
+            <Text
+              style={styles.submitText}
+              onPress={() => navigate("/recruitPost")}
+            >
+              제출하기
+            </Text>
           </TouchableOpacity>
         </ScrollView>
       </SafeAreaView>

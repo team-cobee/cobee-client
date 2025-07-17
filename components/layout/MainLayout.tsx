@@ -1,78 +1,3 @@
-// import { Ionicons } from "@expo/vector-icons";
-// import { useNavigation } from "expo-router";
-// import React from "react";
-// import {
-//   SafeAreaView,
-//   StyleSheet,
-//   Text,
-//   TouchableOpacity,
-//   View,
-// } from "react-native";
-// import BottomTabs from "../ui/BottomTabs";
-
-// interface Props {
-//   title?: string;
-//   showTabs?: boolean;
-//   showBack?: boolean;
-//   backType?: "arrow" | "close"; // ← 또는 X
-//   children: React.ReactNode;
-// }
-
-// export default function MainLayout({
-//   title = "",
-//   showTabs = false,
-//   showBack = true,
-//   backType = "arrow",
-//   children,
-// }: Props) {
-//   const navigation = useNavigation();
-
-//   return (
-//     <SafeAreaView style={styles.container}>
-//       {/* 공통 헤더 */}
-//       <View style={styles.header}>
-//         {showBack ? (
-//           <TouchableOpacity onPress={() => navigation.goBack()}>
-//             {backType === "close" ? (
-//               <Ionicons name="close" size={24} color="black" />
-//             ) : (
-//               <Ionicons name="chevron-back" size={24} color="black" />
-//             )}
-//           </TouchableOpacity>
-//         ) : (
-//           <View style={{ width: 24 }} />
-//         )}
-//         <Text style={styles.title}>{title}</Text>
-//         <View style={styles.icons}>
-//           <Ionicons name="person-outline" size={20} style={styles.icon} />
-//           <Ionicons name="notifications-outline" size={20} />
-//         </View>
-//       </View>
-
-//       {/* 컨텐츠 영역 */}
-//       <View style={styles.content}>{children}</View>
-
-//       {/* 하단 탭 */}
-//       {showTabs && <BottomTabs />}
-//     </SafeAreaView>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: { flex: 1, backgroundColor: "#fff" },
-//   header: {
-//     flexDirection: "row",
-//     justifyContent: "space-between",
-//     paddingHorizontal: 16,
-//     paddingVertical: 12,
-//     alignItems: "center",
-//   },
-//   title: { fontWeight: "bold", fontSize: 16 },
-//   icons: { flexDirection: "row", gap: 10 },
-//   icon: { marginRight: 10 },
-//   content: { flex: 1 },
-// });
-
 // components/layout/MainLayout.tsx
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "expo-router";
@@ -108,7 +33,7 @@ export default function MainLayout({
   backType = null,
   showProfileIcon = true,
   showBellIcon = true,
-  headerBackgroundColor = "#fff",
+  headerBackgroundColor = "#ffffff",
   titleAlign,
   titleStyle,
   children,
@@ -155,7 +80,13 @@ export default function MainLayout({
               onPress={() => navigate("/account")}
             />
           )}
-          {showBellIcon && <Ionicons name="notifications-outline" size={20} />}
+          {showBellIcon && (
+            <Ionicons
+              name="notifications-outline"
+              size={20}
+              onPress={() => navigate("/postAlarm")}
+            />
+          )}
         </View>
       </View>
 
@@ -180,7 +111,7 @@ const styles = StyleSheet.create({
   title: { fontWeight: "bold", fontSize: 16 },
   icons: { flexDirection: "row", gap: 10 },
   icon: { marginRight: 10 },
-  content: { flex: 1 },
+  content: { flex: 1, backgroundColor: "#FFFFFF" },
   titleContainer: {
     justifyContent: "center",
   },
