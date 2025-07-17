@@ -1,7 +1,17 @@
 # Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
 
-# dependencies
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Dependency directories
 node_modules/
+jspm_packages/
 
 # Expo
 .expo/
@@ -32,8 +42,56 @@ yarn-error.*
 
 # local env files
 .env*.local
+.env
+
+
 
 # typescript
 *.tsbuildinfo
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+Thumbs.db
+
+# Temporary folders
+tmp/
+temp/
+
+# Build outputs
+build/
+dist/
+
+# Android
+android/app/build/
+android/build/
+android/.gradle/
+android/gradle/
+android/local.properties
+android/app/release/
+android/app/debug/
+android/keystore.properties
+android/app/src/main/assets/bundle.js
+android/app/src/main/assets/bundle.js.map
+
+# iOS
+ios/build/
+ios/Pods/
+ios/*.xcworkspace
+ios/*.xcodeproj/xcuserdata
+ios/*.xcodeproj/project.xcworkspace/xcuserdata
+ios/fastlane/report.xml
+ios/fastlane/Preview.html
+ios/fastlane/screenshots
+ios/fastlane/test_output
+ios/Runner.app
+ios/Runner.ipa
+
+# Web
+web-build/
 
 app-example
