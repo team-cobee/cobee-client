@@ -1,13 +1,11 @@
 // app/(tabs)/public-profile.tsx
-import { Ionicons } from '@expo/vector-icons';
+import MainLayout from "@/components/layout/MainLayout";
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import {
-    Image,
-    SafeAreaView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Image,
+  StyleSheet,
+  Text,
+  View
 } from 'react-native';
 
 type Params = { id: string };
@@ -28,14 +26,13 @@ export default function PublicProfile() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      {/* 헤더 */}
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.backIcon}>
-          <Ionicons name="arrow-back" size={24} color="#333" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>공개 프로필</Text>
-      </View>
+    <MainLayout
+      title="공개 프로필"
+      backType="arrow"
+      showProfileIcon={false}
+      showBellIcon={false}
+    >
+      <View style={styles.container}>
 
       {/* 프로필 카드 */}
       <View style={styles.profileCard}>
@@ -68,31 +65,13 @@ export default function PublicProfile() {
       <View style={styles.blankCard}>
         <Text style={styles.blankText}>{user.deposit}</Text>
       </View>
-    </SafeAreaView>
+      </View>
+    </MainLayout>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#fff' },
-
-  /* 헤더 */
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'relative',
-    height: 56,
-    paddingHorizontal: 16,
-  },
-  backIcon: { 
-    position: 'absolute',
-    left: 16,
-  },
-  headerTitle: { 
-    fontSize: 18,
-    fontWeight: 'bold', 
-    color: '#333',
-  },
 
   /* 프로필 카드 */
   profileCard: {

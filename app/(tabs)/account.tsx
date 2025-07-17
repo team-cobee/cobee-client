@@ -1,3 +1,4 @@
+import MainLayout from "@/components/layout/MainLayout";
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
@@ -5,11 +6,10 @@ import {
   ActivityIndicator,
   Image,
   Modal,
-  SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
 
 type User = {
@@ -54,23 +54,15 @@ export default function AccountSettings() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      {/*헤더*/}
-      <View style={styles.header}>
-        <View style={styles.headerTop}>
-          {/* 뒤로가기 아이콘 (x=12, y=13) */}
-          <TouchableOpacity onPress={() => router.back()} style={styles.iconBack}>
-            <Ionicons name="arrow-back" size={20} color="#333" />
-          </TouchableOpacity>
-          {/* 중앙 타이틀 */}
-          <Text style={styles.headerTitle}>계정 설정</Text>
-          {/* 알림 아이콘 (x=353, y=10) */}
-          <TouchableOpacity style={styles.iconBell}>
-            <Ionicons name="notifications-outline" size={20} color="#333" />
-          </TouchableOpacity>
-        </View>
-
-        {/* 프로필 섹션 */}
+    <MainLayout
+      title="계정 설정"
+      backType="arrow"
+      showProfileIcon={false}
+      headerBackgroundColor="#f7b32b"
+    >
+      <View style={styles.container}>
+        <View style={styles.header}>
+          {/* 프로필 섹션 */}
         {user ? (
           <View style={styles.profileSection}>
             <Image
@@ -158,8 +150,8 @@ export default function AccountSettings() {
           </View>
         </View>
       </Modal>
-
-    </SafeAreaView>
+      </View>
+    </MainLayout>
   );
 }
 
@@ -178,27 +170,6 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 24,
     borderBottomRightRadius: 24,
   },
-  headerTop: {
-    position: 'relative',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  iconBack: {
-    position: 'absolute',
-    left: 0,  // Figma x = 12
-    width: 24,
-    height: 24,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },  
-  iconBell: {
-    position: 'absolute',
-    left: 340,  // Figma x = 353
-    width: 24,
-    height: 24,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   headerTitle: {
     fontSize: 16,
     fontWeight: 'bold',
@@ -209,7 +180,7 @@ const styles = StyleSheet.create({
   profileSection: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 50,
+    marginTop: 10,
   },
   profileImg: {
     width: 56,
