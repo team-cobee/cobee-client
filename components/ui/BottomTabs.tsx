@@ -8,7 +8,7 @@ const chat = require("../../assets/images/chat.png");
 
 const routes = [
   { label: "지도", icon: map, path: "/post" },
-  { label: "홈", icon: home, path: "/" },
+  { label: "홈", icon: home, path: "/home" },
   { label: "채팅", icon: chat, path: "/recruitPost" },
 ];
 
