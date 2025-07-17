@@ -8,6 +8,7 @@ const { width, height } = Dimensions.get("window");
 
 export default function SignupSuccess() {
   const router = useRouter();
+  const userName = "홍길동"; // 더미데이터, 추후 백엔드 연동 시 교체
   return (
     <View style={styles.container}>
       {/* 상단 배경 + 로고 */}
@@ -25,8 +26,8 @@ export default function SignupSuccess() {
         </View>
         <Text style={styles.successTitle}>가입 성공</Text>
         <Text style={styles.successDesc}>
-          어서오세요!! 00님{"\n"}
-          원하는 룸메이트를 <Text style={{fontWeight:'bold'}}>Cobee</Text>에서 찾아보세요!
+          어서오세요!! {userName}님{"\n"}
+          원하는 룸메이트를 <Text style={{fontWeight:'bold', color:'#2A5ADA'}}>Cobee</Text>에서 찾아보세요!
         </Text>
         <TouchableOpacity style={styles.homeBtn} onPress={() => router.push('/(tabs)/home')}>
           <Text style={styles.homeBtnText}>Back to Home</Text>
