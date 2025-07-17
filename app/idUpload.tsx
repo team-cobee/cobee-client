@@ -1,12 +1,21 @@
 import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useState } from "react";
+import { useRouter } from "expo-router";
 
-const cobeeIcon = require("@/assets/images/cobee-icon.png"); // 코비 아이콘
+const cobeeIcon = require("@/assets/images/notext-cobee.png"); // 코비 아이콘
 const idCardImg = require("@/assets/images/idcard-sample.png"); // 주민등록증 샘플 이미지
-const photoAddIcon = require("@/assets/images/photo-add.png");  // 사진 추가 아이콘
 const uploadBtnIcon = require("@/assets/images/image-upload.png");  // 업로드 버튼 아이콘
+const testIdCardImg = require("@/assets/images/test-idcard.png");
 const { width } = Dimensions.get("window");
 
 export default function IdUpload() {
+  const [selectedImage, setSelectedImage] = useState(null);
+  const router = useRouter();
+
+  const handlePhotoBoxPress = () => {
+    setSelectedImage(testIdCardImg);
+  };
+
   return (
     <View style={styles.container}>
       {/* 상단 배경 + 로고 */}
@@ -23,13 +32,31 @@ export default function IdUpload() {
         {"\n"}원본을 업로드해주세요
       </Text>
       {/* 사진 추가 */}
-      <TouchableOpacity style={styles.photoBox}>
-        <Image source={uploadBtnIcon} style={styles.photoIcon} resizeMode="contain" />
-        <Text style={styles.photoText}>사진 추가</Text>
-        <Text style={styles.photoSubText}>(up to 12 Mb)</Text>
+      <TouchableOpacity
+        style={[styles.photoBox, selectedImage && styles.photoBoxFilled]}
+        onPress={handlePhotoBoxPress}
+      >
+        {selectedImage ? (
+          <Image
+            source={selectedImage}
+            style={styles.photoBoxImage}
+            resizeMode="cover"
+          />
+        ) : (
+          <>
+            <Image source={uploadBtnIcon} style={styles.photoIcon} resizeMode="contain" />
+            <Text style={styles.photoText}>사진 추가</Text>
+            <Text style={styles.photoSubText}>(up to 12 Mb)</Text>
+          </>
+        )}
       </TouchableOpacity>
       {/* 업로드 버튼 */}
-      <TouchableOpacity style={styles.uploadBtn}>
+      <TouchableOpacity
+        style={styles.uploadBtn}
+        onPress={() => {
+          if (selectedImage) router.push("/idUploadResult");
+        }}
+      >
         <Text style={styles.uploadBtnText}>신분증 업로드</Text>
       </TouchableOpacity>
     </View>
@@ -47,9 +74,9 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
   },
   headerLogo: {
-    width: 54*2,
-    height: 35*2,
-    marginBottom: 25,
+    width: 54,
+    height: 35,
+    marginBottom: 45,
   },
   cardBox: {
     width: width,
@@ -87,14 +114,27 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#E0E0E0",
     borderRadius: 12,
-    width: 240, //width * 0.64
+    width: 237, //width * 0.64
     height: 151,
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 24,
     backgroundColor: "#FAFAFA",
     borderStyle: "dashed",
+    // new
+    overflow: "hidden",
   },
+  photoBoxFilled: {
+    borderWidth: 0,
+    backgroundColor: "transparent",
+    borderStyle: "solid",
+    padding: 0,
+  },
+  photoBoxImage: {
+    width: 237,
+    height: 151,
+    borderRadius: 12,
+  }, // new
   photoIcon: {
     width: 46.39,
     height: 60.02,
