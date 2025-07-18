@@ -1,15 +1,14 @@
-import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
-import { useState } from 'react';
+import MainLayout from "@/components/layout/MainLayout";
+import { useRouter } from "expo-router";
+import { useState } from "react";
 import {
-    FlatList,
-    Image,
-    SafeAreaView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-} from 'react-native';
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 type Submission = {
   id: string;
@@ -40,17 +39,13 @@ export default function SubmissionList() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      {/* 헤더 */}
-      <View style={styles.header}>
-        <TouchableOpacity
-          onPress={() => router.back()}
-          style={styles.backIcon}
-        >
-          <Ionicons name="arrow-back" size={24} color="#333" />
-        </TouchableOpacity>
-        <Text style={styles.title}>제출 명단</Text>
-      </View>
+    <MainLayout
+      title="제출 명단"
+      backType="arrow"
+      showProfileIcon={false}
+      showBellIcon={false}
+    >
+      <View style={styles.container}>
 
       {/* 리스트 */}
       <FlatList
@@ -83,22 +78,14 @@ export default function SubmissionList() {
         }}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
       />
-    </SafeAreaView>
+      </View>
+    </MainLayout>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#fff' },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    height: 56,
-    paddingHorizontal: 16,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#eee',
-  },
-  backIcon: { marginRight: 12 },
-  title: { fontSize: 18, fontWeight: 'bold', color: '#333' },
+  // 헤더는 MainLayout에서 제공
   list: { paddingVertical: 8 },
 
   // 전체 아이템 컨테이너를 터치 가능하게 바꿈
