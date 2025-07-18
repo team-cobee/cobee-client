@@ -1,13 +1,21 @@
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Image, TextInput } from "react-native";
 import React, { useState } from "react";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 
 
 const cobeeIcon = require("@/assets/images/notext-cobee.png"); // 코비 아이콘
 const testIdCardImg = require("@/assets/images/test-idcard.png");
 const { width } = Dimensions.get("window");
 
+const getImageSource = (imageUri: string | undefined) => {
+  if (imageUri) {
+    return { uri: imageUri };
+  }
+  return testIdCardImg;
+};
+
 export default function IdUploadResult() {
+  const { imageUri } = useLocalSearchParams<{ imageUri?: string }>();
   const [editMode, setEditMode] = useState(false);
   const [fields, setFields] = useState({
     name: "홍길동",
@@ -27,7 +35,7 @@ export default function IdUploadResult() {
       </View>
       {/* 카드 영역 */}
       <View style={styles.cardBox}>
-        <Image source={testIdCardImg} style={styles.idCardImg} resizeMode="contain" />
+        <Image source={getImageSource(typeof imageUri === 'string' ? imageUri : undefined)} style={styles.idCardImg} resizeMode="contain" />
       </View>
       {/* 결과 텍스트 블록 */}
       <View style={styles.resultBlock}>

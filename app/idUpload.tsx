@@ -1,6 +1,7 @@
 import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
 import { useRouter } from "expo-router";
+import * as ImagePicker from "expo-image-picker";
 
 const cobeeIcon = require("@/assets/images/notext-cobee.png"); // 코비 아이콘
 const idCardImg = require("@/assets/images/idcard-sample.png"); // 주민등록증 샘플 이미지
@@ -9,11 +10,26 @@ const testIdCardImg = require("@/assets/images/test-idcard.png");
 const { width } = Dimensions.get("window");
 
 export default function IdUpload() {
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const router = useRouter();
 
-  const handlePhotoBoxPress = () => {
-    setSelectedImage(testIdCardImg);
+  const handlePhotoBoxPress = async () => {
+    // 권한 요청
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (permissionResult.granted === false) {
+      alert("사진 접근 권한이 필요합니다.");
+      return;
+    }
+    // 이미지 선택
+    const pickerResult = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    if (!pickerResult.canceled && pickerResult.assets && pickerResult.assets.length > 0) {
+      setSelectedImage(pickerResult.assets[0].uri);
+    }
   };
 
   return (
@@ -38,7 +54,7 @@ export default function IdUpload() {
       >
         {selectedImage ? (
           <Image
-            source={selectedImage}
+            source={{ uri: selectedImage }}
             style={styles.photoBoxImage}
             resizeMode="cover"
           />
@@ -54,7 +70,7 @@ export default function IdUpload() {
       <TouchableOpacity
         style={styles.uploadBtn}
         onPress={() => {
-          if (selectedImage) router.push("/idUploadResult");
+          if (selectedImage) router.push({ pathname: "/idUploadResult", params: { imageUri: selectedImage } });
         }}
       >
         <Text style={styles.uploadBtnText}>신분증 업로드</Text>
