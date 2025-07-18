@@ -60,7 +60,7 @@ export default function RecruitPost(/*{ API연동시 외부에서 주는 파라�
         "코골이 없는 룸메구해요. 해당 폼에서 정보 입력해주시면 추후 연락드리겠습니다:D",
       formLink: "https://github.com/hwnooy",
     },
-    currentUserId: 100,
+    currentUserId: 10,
   });
   const isAuthor = posts.currentUserId === posts.post.authorId; // 글 작성자인지 체크 변수
 
